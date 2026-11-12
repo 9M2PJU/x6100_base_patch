@@ -66,27 +66,59 @@ chmod +x tools/install.sh
 .\tools\install.ps1 -Ip 192.168.1.100 -File firmwares\X6100_BBFW_V1.1.6_230307001_r9.xgf
 ```
 
-What the script does:
+What the scripts do (both do the same job, one per OS family):
 
-1. Finds newest local `.xgf` (or downloads latest release if none)
-2. Checks `ssh root@<ip>` reaches `/usr/firmware`
-3. `scp` uploads the file
-4. Verifies with `ls -lh` and prints the on-radio steps
+| Script | For | Needs |
+|---|---|---|
+| `tools/install.sh` | Linux / macOS (bash) | OpenSSH client (`scp`, `ssh`, `curl` only for auto-download) |
+| `tools/install.ps1` | Windows 10/11 (PowerShell 5.1+) | OpenSSH Client feature (`scp`, `ssh`) |
+
+Step by step, each script will:
+
+1. **Pick a firmware** — uses `--file`/`-File` if you give one, else the newest `.xgf` in `firmwares/`, else downloads the latest release `.xgf` from GitHub.
+2. **Ask for the radio IP** (or use `--ip`/`-Ip`) — the WiFi address shown on the radio.
+3. **Test SSH** — `ssh root@<ip>` must reach the radio and access `/usr/firmware`. If this fails it stops and tells you why (wrong WiFi, wrong IP, wrong password).
+4. **Upload via SCP** — copies the file to `/usr/firmware/<name>.xgf` with a progress display.
+5. **Verify** — runs `ls -lh` on the radio and prints the on-radio flash steps.
+
+Neither script flashes the radio itself — flashing always happens from the radio menu, so you keep full control.
 
 <details>
-<summary><b>Script options</b></summary>
+<summary><b>All options and examples</b></summary>
 
 ```bash
 ./tools/install.sh --help
-# --ip, --file, --user (default root), --port (default 22),
-# --dest (default /usr/firmware), --yes
+# --ip IP      radio WiFi address (prompted if omitted)
+# --file PATH  .xgf to upload (default: newest in firmwares/)
+# --user USER  SSH user (default: root)
+# --port PORT  SSH port (default: 22)
+# --dest DIR   remote folder (default: /usr/firmware)
+# --yes        skip the confirmation prompt
 ```
 
 ```powershell
 .\tools\install.ps1 -Help
+# -Ip, -File, -User (default root), -Port (default 22),
+# -Dest (default /usr/firmware), -Yes
 ```
 
-Needs OpenSSH client (`scp`, `ssh`). Linux/macOS: preinstalled, else `apt install openssh-client` / `brew install openssh`. Windows 10/11: Settings → Apps → Optional features → OpenSSH Client.
+Examples:
+
+```bash
+# interactive (prompts for IP, auto-picks firmware):
+./tools/install.sh
+# fully specified, no prompts:
+./tools/install.sh --ip 192.168.1.100 --file firmwares/X6100_BBFW_V1.1.6_230307001_r9.xgf --yes
+```
+
+```powershell
+# interactive:
+.\tools\install.ps1
+# fully specified:
+.\tools\install.ps1 -Ip 192.168.1.100 -File firmwares\X6100_BBFW_V1.1.6_230307001_r9.xgf -Yes
+```
+
+Install OpenSSH if `scp`/`ssh` is missing: Linux `apt install openssh-client`, macOS `brew install openssh` (usually preinstalled), Windows Settings → Apps → Optional features → OpenSSH Client.
 
 </details>
 
