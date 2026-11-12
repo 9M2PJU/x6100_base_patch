@@ -147,7 +147,7 @@ It may ask: pick a firmware number (Enter = recommended), confirm `Upload? [Y/n]
 Skip the questions (replace IP/filename with yours):
 
 ```bash
-./tools/install.sh --ip 192.168.1.100 --file firmwares/X6100_BBFW_V1.1.6_230307001_r9.xgf --yes
+./tools/install.sh --ip 192.168.1.100 --file firmwares/X6100_BBFW_V1.1.6_230307001_r13.xgf --yes
 ```
 
 **Windows (if you didn't use `install.bat`):**
@@ -159,7 +159,7 @@ Skip the questions (replace IP/filename with yours):
 Same wizard: auto-find, firmware menu, `Upload? [Y/n]`, password `123` when asked. Skip-the-questions version:
 
 ```powershell
-.\tools\install.ps1 -Ip 192.168.1.100 -File firmwares\X6100_BBFW_V1.1.6_230307001_r9.xgf -Yes
+.\tools\install.ps1 -Ip 192.168.1.100 -File firmwares\X6100_BBFW_V1.1.6_230307001_r13.xgf -Yes
 ```
 
 A good upload looks like this: `Found your radio at: ...`, SSH check passes, a progress bar moves, then `ls -lh /usr/firmware/xxxx.xgf` prints the file. If it stops with an error, read it — it usually means wrong WiFi, wrong IP, or wrong password.
@@ -286,22 +286,23 @@ Flash the stock `.xgf`/`.img` from Xiegu the same way. This patch only replaces 
 ## Changelog
 
 ### r13:
-* Battery % from voltage LUT in flow data
-* Fix AIC PLL setup for 100.000 kHz, DSP optimisations
+* Battery % from discharge voltage curve (display only, charge logic untouched)
+* AIC PLL fix: input sampling rate/bandwidth now 100 kHz (birdies shift slightly up)
+* Zoom (FFT decimation) optimisations
 
 ### r12:
-* CESSB (controlled-envelope SSB, configurable via R1CBU)
-* CW peak filter + Q control
-* Louder BASE→MAIN audio path, IN_3 routing for play/record
+* CESSB — ON/OFF + power-up dB; KI9NG measurements p99 +2.4 dB / p97 +3.7 dB / p95 +4.3 dB; keep ALC at 0.1–0.3
+* VOX on hand/line-in mic only (NOT internal mic — no phantom power on RX); gain / anti-VOX / delay + handover timeout
+* CW peak resonant filter + Q (rings at high Q)
+* SSB RX widened to 5000 Hz, ADC DC-blocker moved into AIC3204, BASE→MAIN output to 29 dB, NR stability fixes
 
 ### r11:
-* VOX (gain / anti-VOX / delay) + PTT/ATU handling
-* Move ADC DC-blocker into AIC3204
-* SSB RX IQ filter widened to 5000 Hz, NR click fixes
+* NR no-audio guards
+* Noise blanker (NB)
 
 ### r10:
-* Spectral noise reduction (NR) + level/slope control, NaN guards
-* Placed before AGC, survives TX, reset on boot
+* New spectral-subtraction NR (FFT 512 narrow / 256 wide): less musical noise and distortion
+* NR moved before AGC; slow-adopting noise profile
 
 ### r9:
 * Fixed AGC on CW
