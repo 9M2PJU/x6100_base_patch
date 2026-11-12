@@ -1,5 +1,7 @@
 # X6100 Extended BASE Firmware
 
+![X6100](assets/x6100-header.jpg)
+
 Patched DSP firmware for the **BASE board** (`STM32F427`) of the Xiegu X6100.
 Better TX audio, FM, filters, NR/NB, VOX, IF-shift and spectrum flow — works with the stock GUI and with R1CBU / OpenX6100 style GUIs.
 
