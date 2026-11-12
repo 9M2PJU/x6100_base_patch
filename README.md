@@ -42,6 +42,24 @@ Check yours on the radio: **System info → BASE**. Pick the highest `rN` for yo
 
 You run one small script on your computer. It sends the firmware file to the radio over WiFi. You do **not** need WinSCP or FileZilla. The actual flashing still happens safely from the radio menu.
 
+### Fastest — one line, nothing to download first
+
+The script finds the radio by itself, shows a firmware menu, and downloads the latest firmware if needed. Just paste one line:
+
+**Linux / macOS** (in Terminal):
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/9M2PJU/x6100_base_patch/1.1.6/tools/install.sh)
+```
+
+**Windows** (in PowerShell):
+
+```powershell
+$f="$env:TEMP\x6100-install.ps1"; irm https://raw.githubusercontent.com/9M2PJU/x6100_base_patch/1.1.6/tools/install.ps1 -OutFile $f; & $f
+```
+
+Prefer files on disk? Follow Step 1 below, then run the script from the folder.
+
 ### What you need
 
 - [ ] Radio with stock firmware booted (**take the SD card out** first)
@@ -78,7 +96,11 @@ Not sure which `.xgf`? See [Compatibility](#compatibility): match the date in th
 
 ### Step 2 — Open a terminal in that folder
 
-**Windows:**
+**Windows — easiest, no terminal at all:**
+
+Just double-click `tools\install.bat` in the unzipped folder. A window opens and walks you through it. (It runs `tools\install.ps1` for you and keeps the window open at the end so you can read the result.)
+
+**Windows — PowerShell way:**
 
 1. Press the Windows key, type `PowerShell`, open **Windows PowerShell**.
 2. Go to the folder you unzipped, e.g.:
@@ -111,41 +133,44 @@ Not sure which `.xgf`? See [Compatibility](#compatibility): match the date in th
 
 ### Step 3 — Run the uploader (copy-paste)
 
-**Linux / macOS** — the easy way is interactive (it asks you everything):
+The script is a wizard: it **finds the radio on WiFi by itself**, shows a **numbered firmware menu** (just press Enter for the recommended one), then uploads. You only type something if it asks.
+
+**Linux / macOS:**
 
 ```bash
 chmod +x tools/install.sh
 ./tools/install.sh
 ```
 
-It will ask for the radio IP, e.g. `192.168.1.100`, then ask `Upload? [Y/n]` — press Enter for Yes. When it asks for a password, type `123` (you will see nothing while typing — that is normal) and press Enter.
+It may ask: pick a firmware number (Enter = recommended), confirm `Upload? [Y/n]` (Enter = Yes). When it asks for a password, type `123` (you will see nothing while typing — that is normal) and press Enter. If auto-find fails, it asks for the IP from the radio's WiFi screen.
 
-Or do it in one line (replace the IP and filename with yours):
+Skip the questions (replace IP/filename with yours):
 
 ```bash
-./tools/install.sh --ip 192.168.1.100 --file firmwares/X6100_BBFW_V1.1.6_230307001_r9.xgf
+./tools/install.sh --ip 192.168.1.100 --file firmwares/X6100_BBFW_V1.1.6_230307001_r9.xgf --yes
 ```
 
-**Windows:**
+**Windows (if you didn't use `install.bat`):**
 
 ```powershell
 .\tools\install.ps1
 ```
 
-Same prompts: type the radio IP, confirm with `Y`, password `123` when asked. One-line version:
+Same wizard: auto-find, firmware menu, `Upload? [Y/n]`, password `123` when asked. Skip-the-questions version:
 
 ```powershell
-.\tools\install.ps1 -Ip 192.168.1.100 -File firmwares\X6100_BBFW_V1.1.6_230307001_r9.xgf
+.\tools\install.ps1 -Ip 192.168.1.100 -File firmwares\X6100_BBFW_V1.1.6_230307001_r9.xgf -Yes
 ```
 
-A good upload looks like this: SSH check passes, a progress bar moves, then `ls -lh /usr/firmware/xxxx.xgf` prints the file. If it stops with an error, read it — it usually means wrong IP, not on the same WiFi, or wrong password.
+A good upload looks like this: `Found your radio at: ...`, SSH check passes, a progress bar moves, then `ls -lh /usr/firmware/xxxx.xgf` prints the file. If it stops with an error, read it — it usually means wrong WiFi, wrong IP, or wrong password.
 
 What each script is:
 
-| Script | Double-click? | Use it on |
+| Script | How to run it | Use it on |
 |---|---|---|
-| `tools/install.sh` | No — run from Terminal | Linux / macOS |
-| `tools/install.ps1` | No — run from PowerShell | Windows 10 / 11 |
+| `tools/install.sh` | Paste the one-liner, or run from Terminal | Linux / macOS |
+| `tools/install.bat` | Double-click | Windows 10 / 11 (easiest) |
+| `tools/install.ps1` | Paste the one-liner, or run from PowerShell | Windows 10 / 11 |
 
 Both do the same 5 things: (1) pick the `.xgf`, (2) ask/connect to the radio IP, (3) test SSH to `/usr/firmware`, (4) copy the file with `scp`, (5) verify and show the on-radio steps. They never flash by themselves.
 
@@ -155,12 +180,13 @@ Both do the same 5 things: (1) pick the `.xgf`, (2) ask/connect to the radio IP,
 ```bash
 ./tools/install.sh --help
 # --ip IP, --file PATH, --user (default root), --port (default 22),
-# --dest (default /usr/firmware), --yes (skip confirmation)
+# --dest (default /usr/firmware), --no-scan (skip auto-find),
+# --list (show firmwares, exit), --yes (skip confirmation)
 ```
 
 ```powershell
 .\tools\install.ps1 -Help
-# -Ip, -File, -User, -Port, -Dest, -Yes
+# -Ip, -File, -User, -Port, -Dest, -NoScan, -List, -Yes
 ```
 
 Missing `scp`/`ssh`? Linux: `sudo apt install openssh-client`. macOS: preinstalled (or `brew install openssh`). Windows: Settings → Apps → Optional features → OpenSSH Client.
