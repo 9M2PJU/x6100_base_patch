@@ -117,7 +117,7 @@ if ([string]::IsNullOrWhiteSpace($File)) {
   $fw = @()
   if ($scriptDir) {
     $fw = @(Get-ChildItem (Join-Path (Split-Path -Parent $scriptDir) "firmwares\*.xgf") -ErrorAction SilentlyContinue |
-      Sort-Object LastWriteTime -Descending)
+      Sort-Object { if ($_.Name -match '_r(\d+)\.xgf$') { [int]$Matches[1] } else { 0 } } -Descending)
   }
   if ($fw.Count -eq 0) {
     Write-Host "No bundled firmware found. Downloading latest release..."

@@ -84,7 +84,12 @@ list_local_fw() {
   local root
   root="$(repo_root || true)"
   [ -n "$root" ] || return 0
-  ls -t "$root"/firmwares/*.xgf 2>/dev/null || true
+  local f v
+  for f in "$root"/firmwares/*.xgf; do
+    [ -e "$f" ] || continue
+    v="$(basename "$f" | sed -n 's/.*_r\([0-9][0-9]*\)\.xgf$/\1/p')"
+    printf '%010d\t%s\n' "${v:-0}" "$f"
+  done | sort -rn | cut -f2-
 }
 
 fw_label() { # pretty label: which OEM BASE a file is for

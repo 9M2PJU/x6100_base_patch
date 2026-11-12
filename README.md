@@ -285,53 +285,61 @@ Flash the stock `.xgf`/`.img` from Xiegu the same way. This patch only replaces 
 
 ## Changelog
 
-### r13:
-* Battery % from discharge voltage curve (display only, charge logic untouched)
-* AIC PLL fix: input sampling rate/bandwidth now 100 kHz (birdies shift slightly up)
-* Zoom (FFT decimation) optimisations
+Latest release: **r13** — get it from [releases](https://github.com/9M2PJU/x6100_base_patch/releases) (upstream: [gdyuldin/x6100_base_patch](https://github.com/gdyuldin/x6100_base_patch/releases)). Match the file date (`221112001` / `230307001`) to your radio's **System info → BASE** date.
 
-### r12:
-* CESSB — ON/OFF + power-up dB; KI9NG measurements p99 +2.4 dB / p97 +3.7 dB / p95 +4.3 dB; keep ALC at 0.1–0.3
-* VOX on hand/line-in mic only (NOT internal mic — no phantom power on RX); gain / anti-VOX / delay + handover timeout
-* CW peak resonant filter + Q (rings at high Q)
-* SSB RX widened to 5000 Hz, ADC DC-blocker moved into AIC3204, BASE→MAIN output to 29 dB, NR stability fixes
+### r13
+* Battery indicator now computed from a real discharge curve (voltage → %). Display only — charging logic untouched.
+* AIC PLL setup fixed: input sampling rate (and bandwidth) is now 100 kHz. Side effect — birdies move slightly up in frequency.
+* Zoom (FFT decimation path) optimisations.
 
-### r11:
-* NR no-audio guards
-* Noise blanker (NB)
+### r12
+New features:
+* **CESSB** (Controlled Envelope SSB, idea by @ki9ng) — ON/OFF plus power-up level (dB). Raises average TX power and loudness by clipping/filtering to cut peak-to-average ratio while keeping the signal clean. Measured by KI9NG: Conservative (p99) +2.4 dB, barely audible; Recommended (p97) +3.7 dB, clean, no pumping; Aggressive (p95) +4.3 dB, slightly "processed". With a calibrated TX level, ALC should sit around 0.1–0.3 and never exceed 1.0 for long. Even at 0 dB power-up it protects the finals (and any amp) from overload and out-of-band emissions.
+* **VOX** — works with the hand mic / anything on the MIC socket, and line-in in SSB (line-in only in digital modes). Does **not** work with the internal mic: its phantom power is on only during TX, so it hears nothing on RX. Controls: ON/OFF, VOX gain (more = more sensitive, ~50 tested), anti-VOX gain (0 = ignore RX audio), delay against dropouts on pauses. Adds a small TX delay so speech starts aren't clipped, plus a handover timeout against fast TX/RX flapping.
+* **CW peak filter** — resonant filter on the CW key frequency with adjustable Q (inspired by HDSDR). Lifts weak signals; starts ringing at high Q.
+Fixes and changes:
+* NR stability improvements.
+* SSB RX bandwidth 3300 → 5000 Hz.
+* Incoming-audio DC blocker moved into the AIC3204 chip (less MCU load).
+* BASE→MAIN output level raised to 29 dB — cleaner recordings and CW/FT4-8 decoding on the APP side.
 
-### r10:
-* New spectral-subtraction NR (FFT 512 narrow / 256 wide): less musical noise and distortion
-* NR moved before AGC; slow-adopting noise profile
+### r11
+* Guards against NR no-audio lockups.
+* **Noise blanker (NB)** — ON/OFF plus width/level controls.
 
-### r9:
+### r10 (beta)
+* OEM noise reduction replaced with spectral over-subtraction: FFT 512 for narrowband (≤ 3200 Hz), seamless switch to FFT 256 above; time/frequency averaging plus suppression limiting remove the "water flow" musical noise and reduce voice distortion, also on weak signals.
+* NR moved before AGC for better noise-profile detection. The profile adapts over 1–5 s, so after quiet it may look like a "slow turn-on" — that's normal.
+* If anything goes wrong: reflash the same or another firmware (OEM GUI), or long-press the lock button to reset the MCU (R1CBU).
+
+### r9
 * Fixed AGC on CW
 * Updated filters (less ripple/ringing, wider transition)
 * TX bandpass filter control (default 160–3000 Hz)
 
-### r8:
+### r8
 * IF shift (RX/TX)
 * `fft_span` zoom + `bf16` flow format
 * Rewritten FM mod/demod + pre/de-emphasis
 * DAC gain control, new decim/interp filters
 
-### r7:
+### r7
 * Fix ghost RX for seconds after TX ([demo](https://www.youtube.com/watch?v=ljKug5yumMA))
 
-### r6:
+### r6
 * Fix SWR scan values
 * RX IQ balancing (kills AM hum/distortion)
 
-### r4:
+### r4
 * ADC/DAC gain offsets per HW revision (R1CBU `Output gain` / `TX codec gain`)
 
-### r3:
+### r3
 * Adaptive notch (ANF, R1CBU ≥ v0.30.0), output gain, threshold/makeup fix, CW level
 
-### r2:
+### r2
 * FM squelch, AM/FM DC removal, fewer mode-change clicks, comp ratio 2:1 default + on/off
 
-### r1:
+### r1
 * TX compressor + noise gate (not DATA/CW), 10× FM depth, fixed AM TX + soft limiter, true power control, TX HPF 160 Hz
 
 ---
