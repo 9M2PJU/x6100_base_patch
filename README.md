@@ -38,94 +38,141 @@ Check yours on the radio: **System info → BASE**. Pick the highest `rN` for yo
 
 ---
 
-## Option A — Automatic install (recommended)
+## Option A — Automatic install (recommended, easiest)
 
-No WinSCP / FileZilla needed. The script copies the `.xgf` to the radio over WiFi (SCP).
+You run one small script on your computer. It sends the firmware file to the radio over WiFi. You do **not** need WinSCP or FileZilla. The actual flashing still happens safely from the radio menu.
 
-**1. Prep the radio (same for all OS):**
+### What you need
 
-- [ ] Remove SD card → boot stock firmware
-- [ ] Connect radio to your WiFi, note its IP (radio WiFi settings screen)
-- [ ] Connect external power supply
-- [ ] Know SSH login: user `root`, password `123` (unless you changed it)
+- [ ] Radio with stock firmware booted (**take the SD card out** first)
+- [ ] Radio connected to your home WiFi (write down its **IP address** from the radio's WiFi screen, e.g. `192.168.1.100`)
+- [ ] Radio plugged into **external power** (do not flash on battery)
+- [ ] Your computer on the **same WiFi** as the radio
+- [ ] SSH login for the radio: user `root`, password `123` (unless you changed it before)
 
-**2a. Linux / macOS:**
+### Step 1 — Download the installer and the firmware to your computer
+
+**Way 1 — Download ZIP (best for beginners, no extra tools):**
+
+1. Open https://github.com/9M2PJU/x6100_base_patch in your browser.
+2. Make sure the branch says `1.1.6`, click the green **`<> Code`** button → **`Download ZIP`**.
+3. Unzip the file. You get a folder like `x6100_base_patch-1.1.6` containing:
+   - `tools/install.sh` (for Linux / Mac)
+   - `tools/install.ps1` (for Windows)
+   - `firmwares/` (the `.xgf` firmware files — pick the one matching your BASE date, highest `rN`)
+
+**Way 2 — Git clone (if you already use git):**
+
+```bash
+git clone --branch 1.1.6 https://github.com/9M2PJU/x6100_base_patch.git
+cd x6100_base_patch
+```
+
+**Way 3 — Just 2 files (smallest download):**
+
+1. Download your `.xgf` from [`firmwares/`](firmwares/) (click the file → `Download raw file` button) or from [releases](https://github.com/9M2PJU/x6100_base_patch/releases).
+2. Download the script: `tools/install.sh` (Linux/Mac) or `tools/install.ps1` (Windows) the same way (`Download raw file`).
+3. Put both in one folder, e.g. `Downloads/x6100/`. When you run the script, point it at the file (see Step 3 examples with `--file` / `-File`).
+
+Not sure which `.xgf`? See [Compatibility](#compatibility): match the date in the filename to your radio's **System info → BASE** date.
+
+### Step 2 — Open a terminal in that folder
+
+**Windows:**
+
+1. Press the Windows key, type `PowerShell`, open **Windows PowerShell**.
+2. Go to the folder you unzipped, e.g.:
+   ```powershell
+   cd $HOME\Downloads\x6100_base_patch-1.1.6
+   dir
+   ```
+   You should see `tools` and `firmwares`. If `dir` does not show them, you are in the wrong folder — `cd` again.
+3. If Windows blocks the script with *"running scripts is disabled"*, allow it for this window only:
+   ```powershell
+   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+   ```
+
+**macOS:**
+
+1. Press `Cmd + Space`, type `Terminal`, open it.
+2. ```bash
+   cd ~/Downloads/x6100_base_patch-1.1.6
+   ls
+   ```
+   You should see `tools` and `firmwares`.
+
+**Linux:**
+
+1. Press `Ctrl + Alt + T` to open a terminal.
+2. ```bash
+   cd ~/Downloads/x6100_base_patch-1.1.6
+   ls
+   ```
+
+### Step 3 — Run the uploader (copy-paste)
+
+**Linux / macOS** — the easy way is interactive (it asks you everything):
 
 ```bash
 chmod +x tools/install.sh
-./tools/install.sh --ip 192.168.1.100
-# pick a specific file:
+./tools/install.sh
+```
+
+It will ask for the radio IP, e.g. `192.168.1.100`, then ask `Upload? [Y/n]` — press Enter for Yes. When it asks for a password, type `123` (you will see nothing while typing — that is normal) and press Enter.
+
+Or do it in one line (replace the IP and filename with yours):
+
+```bash
 ./tools/install.sh --ip 192.168.1.100 --file firmwares/X6100_BBFW_V1.1.6_230307001_r9.xgf
 ```
 
-**2b. Windows (PowerShell):**
+**Windows:**
 
 ```powershell
-.\tools\install.ps1 -Ip 192.168.1.100
-# specific file:
+.\tools\install.ps1
+```
+
+Same prompts: type the radio IP, confirm with `Y`, password `123` when asked. One-line version:
+
+```powershell
 .\tools\install.ps1 -Ip 192.168.1.100 -File firmwares\X6100_BBFW_V1.1.6_230307001_r9.xgf
 ```
 
-What the scripts do (both do the same job, one per OS family):
+A good upload looks like this: SSH check passes, a progress bar moves, then `ls -lh /usr/firmware/xxxx.xgf` prints the file. If it stops with an error, read it — it usually means wrong IP, not on the same WiFi, or wrong password.
 
-| Script | For | Needs |
+What each script is:
+
+| Script | Double-click? | Use it on |
 |---|---|---|
-| `tools/install.sh` | Linux / macOS (bash) | OpenSSH client (`scp`, `ssh`, `curl` only for auto-download) |
-| `tools/install.ps1` | Windows 10/11 (PowerShell 5.1+) | OpenSSH Client feature (`scp`, `ssh`) |
+| `tools/install.sh` | No — run from Terminal | Linux / macOS |
+| `tools/install.ps1` | No — run from PowerShell | Windows 10 / 11 |
 
-Step by step, each script will:
-
-1. **Pick a firmware** — uses `--file`/`-File` if you give one, else the newest `.xgf` in `firmwares/`, else downloads the latest release `.xgf` from GitHub.
-2. **Ask for the radio IP** (or use `--ip`/`-Ip`) — the WiFi address shown on the radio.
-3. **Test SSH** — `ssh root@<ip>` must reach the radio and access `/usr/firmware`. If this fails it stops and tells you why (wrong WiFi, wrong IP, wrong password).
-4. **Upload via SCP** — copies the file to `/usr/firmware/<name>.xgf` with a progress display.
-5. **Verify** — runs `ls -lh` on the radio and prints the on-radio flash steps.
-
-Neither script flashes the radio itself — flashing always happens from the radio menu, so you keep full control.
+Both do the same 5 things: (1) pick the `.xgf`, (2) ask/connect to the radio IP, (3) test SSH to `/usr/firmware`, (4) copy the file with `scp`, (5) verify and show the on-radio steps. They never flash by themselves.
 
 <details>
-<summary><b>All options and examples</b></summary>
+<summary><b>All options (you rarely need these)</b></summary>
 
 ```bash
 ./tools/install.sh --help
-# --ip IP      radio WiFi address (prompted if omitted)
-# --file PATH  .xgf to upload (default: newest in firmwares/)
-# --user USER  SSH user (default: root)
-# --port PORT  SSH port (default: 22)
-# --dest DIR   remote folder (default: /usr/firmware)
-# --yes        skip the confirmation prompt
+# --ip IP, --file PATH, --user (default root), --port (default 22),
+# --dest (default /usr/firmware), --yes (skip confirmation)
 ```
 
 ```powershell
 .\tools\install.ps1 -Help
-# -Ip, -File, -User (default root), -Port (default 22),
-# -Dest (default /usr/firmware), -Yes
+# -Ip, -File, -User, -Port, -Dest, -Yes
 ```
 
-Examples:
-
-```bash
-# interactive (prompts for IP, auto-picks firmware):
-./tools/install.sh
-# fully specified, no prompts:
-./tools/install.sh --ip 192.168.1.100 --file firmwares/X6100_BBFW_V1.1.6_230307001_r9.xgf --yes
-```
-
-```powershell
-# interactive:
-.\tools\install.ps1
-# fully specified:
-.\tools\install.ps1 -Ip 192.168.1.100 -File firmwares\X6100_BBFW_V1.1.6_230307001_r9.xgf -Yes
-```
-
-Install OpenSSH if `scp`/`ssh` is missing: Linux `apt install openssh-client`, macOS `brew install openssh` (usually preinstalled), Windows Settings → Apps → Optional features → OpenSSH Client.
+Missing `scp`/`ssh`? Linux: `sudo apt install openssh-client`. macOS: preinstalled (or `brew install openssh`). Windows: Settings → Apps → Optional features → OpenSSH Client.
 
 </details>
 
-**3. Finish on the radio:**
+### Step 4 — Finish on the radio (flash it)
 
 - [ ] System settings → Firmware upgrade → choose the uploaded `.xgf` → Update
-- [ ] Reboot → System info → BASE version ends in `rN` (e.g. `r13`)
+- [ ] Wait, reboot → System info → BASE version ends in `rN` (e.g. `r13`)
+
+If the file is not listed, it landed in the wrong folder. Re-run the script (it always uses `/usr/firmware`) or check with `ssh root@<ip> "ls -lh /usr/firmware"`.
 
 ---
 
