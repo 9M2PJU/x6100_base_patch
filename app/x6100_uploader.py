@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""X6100 BASE firmware uploader — desktop GUI (Windows / Linux / macOS).
+"""X6100 BASE firmware uploader - desktop GUI (Windows / Linux / macOS).
 
 Thin tkinter wrapper around x6100_core (shared with the Android app).
 
@@ -54,7 +54,7 @@ class App(tk.Tk):
                              background="#1c2330", foreground="white",
                              font=("TkDefaultFont", 11, "bold"))
         title_lbl.pack(side="left", padx=10, pady=7)
-        for txt, cmd in (("✕", self.destroy), ("—", self.iconify)):
+        for txt, cmd in (("✕", self.destroy), ("-", self.iconify)):
             tk.Button(head, text=txt, command=cmd, background="#1c2330",
                       foreground="white", activebackground="#cf222e",
                       activeforeground="white", relief="flat", width=4,
@@ -278,10 +278,10 @@ class App(tk.Tk):
                 self.ip_box["values"] = found
                 self.ip_var.set(found[0])
                 self.status.set(f"Found radio at {found[0]}" if len(found) == 1
-                                else f"Found {len(found)} — pick yours (check radio WiFi screen)")
+                                else f"Found {len(found)} - pick yours (check radio WiFi screen)")
                 self.say(f"candidates: {', '.join(found)}")
             else:
-                self.status.set("Not found — type the IP from the radio WiFi screen.")
+                self.status.set("Not found - type the IP from the radio WiFi screen.")
                 self.say("scan empty: same WiFi? booted without SD? port 22?")
                 self._dlg("info", "Not found", "Type the IP shown on the radio's WiFi screen.")
         self.ui(_done)
@@ -318,7 +318,7 @@ class App(tk.Tk):
             self.say(str(out))
             self.say(f"OK: {remote}")
             self.ui(lambda: (self.bar.configure(value=100),
-                             self.status.set("Done — finish the flash on the radio (see popup)"),
+                             self.status.set("Done - finish the flash on the radio (see popup)"),
                              self._dlg("done", DONE_TITLE, done_instructions(name))))
         except Exception as e:  # noqa: BLE001
             self.say(f"upload failed: {e}")

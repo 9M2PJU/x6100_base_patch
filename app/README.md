@@ -1,4 +1,4 @@
-# X6100 Uploader — desktop GUI (Windows / Linux / macOS)
+# X6100 Uploader - desktop GUI (Windows / Linux / macOS)
 
 Same job as `tools/install.sh` / `install.ps1`, with a window:
 find the radio on WiFi, pick a `.xgf`, copy to `/usr/firmware`.

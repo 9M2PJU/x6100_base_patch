@@ -1,4 +1,4 @@
-"""X6100 BASE firmware uploader — Android app (Kivy).
+"""X6100 BASE firmware uploader - Android app (Kivy).
 
 Same flow as the desktop app: pick .xgf, find radio on WiFi,
 upload to /usr/firmware, then finish the flash manually on the radio.
@@ -216,9 +216,9 @@ class Root(BoxLayout):
             self.ip_in.text = found[0]
             self.say(f"candidates: {', '.join(found)}")
             self.set_status(f"Found radio at {found[0]}" if len(found) == 1
-                            else f"Found {len(found)} — check radio WiFi screen")
+                            else f"Found {len(found)} - check radio WiFi screen")
         else:
-            self.set_status("Not found — type the IP from the radio WiFi screen.")
+            self.set_status("Not found - type the IP from the radio WiFi screen.")
             self.say("scan empty: same WiFi? booted without SD? port 22?")
 
     def upload(self, *_):
@@ -251,7 +251,7 @@ class Root(BoxLayout):
             self.say(str(out))
             self.say(f"OK: {remote}")
             self.set_bar(100)
-            self.set_status("Done — finish the flash on the radio (see popup)")
+            self.set_status("Done - finish the flash on the radio (see popup)")
             Clock.schedule_once(lambda _dt: self.popup(DONE_TITLE, done_instructions(name)))
         except Exception as e:  # noqa: BLE001
             self.say(f"upload failed: {e}")

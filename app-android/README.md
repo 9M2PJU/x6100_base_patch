@@ -1,7 +1,7 @@
-# X6100 Uploader — Android app (Kivy)
+# X6100 Uploader - Android app (Kivy)
 
 Same flow as the desktop GUI, phone UI. Core logic (`x6100_core.py`)
-is shared, not duplicated — `build.sh` copies it in before packaging.
+is shared, not duplicated - `build.sh` copies it in before packaging.
 
 ## Build the APK (Linux or CI)
 

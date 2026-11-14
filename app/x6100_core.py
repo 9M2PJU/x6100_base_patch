@@ -1,4 +1,4 @@
-"""X6100 BASE firmware uploader — shared core (no GUI).
+"""X6100 BASE firmware uploader - shared core (no GUI).
 
 Used by the desktop (tkinter) app and the Android (Kivy) app.
 All network/SSH/SFTP logic lives here so both UIs stay thin.
@@ -231,12 +231,12 @@ def upload(host, port, user, password, local, remote, progress_cb):
     return remote
 
 
-DONE_TITLE = "Upload complete — now finish on the radio"
+DONE_TITLE = "Upload complete - now finish on the radio"
 
 
 def start_checklist():
     return (
-        "Before you start — you will finish the flash MANUALLY on the radio.\n"
+        "Before you start - you will finish the flash MANUALLY on the radio.\n"
         "The app only copies the file over WiFi.\n\n"
         "You need:\n"
         "• Radio booted WITHOUT the SD card, on your home WiFi\n"
@@ -253,7 +253,7 @@ def start_checklist():
 def done_instructions(filename):
     return (
         f"Copied to /usr/firmware/{filename}.\n"
-        "The radio does NOT flash itself — do this manually:\n\n"
+        "The radio does NOT flash itself - do this manually:\n\n"
         "1. Keep EXTERNAL power on (never flash on battery alone).\n"
         "2. On the radio: System settings → Firmware upgrade.\n"
         f"3. Pick {filename} → Update, wait until it finishes.\n"

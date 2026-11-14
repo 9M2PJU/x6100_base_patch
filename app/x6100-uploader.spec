@@ -1,4 +1,4 @@
-# PyInstaller spec — bundles the app + firmwares into one file.
+# PyInstaller spec - bundles the app + firmwares into one file.
 # Usage (run on each OS): pyinstaller app/x6100-uploader.spec
 # Output: dist/X6100-Uploader(.exe)
 # Note: run from the REPO ROOT so ../firmwares resolves.
