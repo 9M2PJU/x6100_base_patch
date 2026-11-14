@@ -262,6 +262,8 @@ class Root(BoxLayout):
 
 
 class X6100App(App):
+    title = "X6100 Base Patch Uploader"
+
     def build(self):
         return Root()
 

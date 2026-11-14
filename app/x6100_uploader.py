@@ -25,7 +25,7 @@ from x6100_core import (
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("X6100 BASE firmware uploader")
+        self.title("X6100 Base Patch Uploader")
         self.resizable(True, True)
         self.jobs = queue.Queue()
         self.stop_scan = threading.Event()
@@ -41,7 +41,7 @@ class App(tk.Tk):
         helpmenu.add_command(label="About", command=self._about)
         menubar.add_cascade(label="Help", menu=helpmenu)
         self.configure(menu=menubar)
-        self.title("X6100 BASE firmware uploader")
+        self.title("X6100 Base Patch Uploader")
         self.geometry("660x640")
         self._style()
 
@@ -50,7 +50,7 @@ class App(tk.Tk):
 
         head = tk.Frame(wrap, background="#1c2330")
         head.pack(fill="x", pady=(0, 2))
-        title_lbl = tk.Label(head, text="X6100 BASE firmware uploader",
+        title_lbl = tk.Label(head, text="X6100 Base Patch Uploader",
                              background="#1c2330", foreground="white",
                              font=("TkDefaultFont", 11, "bold"))
         title_lbl.pack(side="left", padx=10, pady=7)

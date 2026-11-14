@@ -1,5 +1,5 @@
 [app]
-title = X6100 Uploader
+title = X6100 Base Patch Uploader
 package.name = x6100uploader
 package.domain = org.x6100
 source.dir = .
