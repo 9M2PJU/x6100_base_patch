@@ -1,0 +1,35 @@
+name: desktop-apps
+on:
+  workflow_dispatch:
+  push:
+    tags: ["app-v*"]
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            out: dist/X6100-Uploader.exe
+            asset: X6100-Uploader-windows.exe
+          - os: macos-latest
+            out: dist/X6100-Uploader.app
+            asset: X6100-Uploader-macos.zip
+          - os: ubuntu-latest
+            out: X6100-Uploader-x86_64.AppImage
+            asset: X6100-Uploader-x86_64.AppImage
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pyinstaller paramiko Pillow
+      - run: pyinstaller app/x6100-uploader.spec
+      - if: runner.os == 'macOS'
+        run: cd dist && zip -r ../X6100-Uploader-macos.zip X6100-Uploader.app
+      - if: runner.os == 'Linux'
+        run: bash app/build-linux.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: ${{ matrix.out }}

@@ -1,2 +1,13 @@
 .vscode
 build
+
+# uploader app build outputs
+dist/
+build/
+AppDir/
+*.AppImage
+__pycache__/
+app-android/bin/
+app-android/.buildozer/
+app-android/x6100_core.py
+app-android/firmwares/
