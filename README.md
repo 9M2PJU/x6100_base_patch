@@ -1,19 +1,44 @@
-# X6100 Extended BASE Firmware
+# Xiegu X6100 Extended BASE Firmware
+
+[![Latest release](https://img.shields.io/github/v/release/9M2PJU/x6100_base_patch?label=latest%20release)](https://github.com/9M2PJU/x6100_base_patch/releases)
+[![Desktop builds](https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apps.yml/badge.svg)](https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apps.yml)
+[![Android build](https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apk.yml/badge.svg)](https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apk.yml)
+![Platforms](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS%20%7C%20Android-blue)
 
 ![X6100](assets/x6100-header.jpg)
 
-Patched DSP firmware for the **BASE board** (`STM32F427`) of the Xiegu X6100.
+Patched DSP firmware for the **BASE board** (`STM32F427`) of the Xiegu X6100, plus one-click uploader apps for every major OS.
 Better TX audio, FM, filters, NR/NB, VOX, IF-shift and spectrum flow - works with the stock GUI and with R1CBU / OpenX6100 style GUIs.
 
 > **Disclaimer:** provided as-is, use at your own risk. Flash on external power, never on battery alone.
 
+**Quick links:** [Compatibility](#compatibility) - [Install with the app](#option-a---gui-app-recommended-easiest) - [Install with a script](#option-b---script-install-terminal-no-gui) - [Manual install](#option-c---manual-install-winscp--filezilla--scp) - [TX calibration](#after-flashing---tx-calibration) - [Troubleshooting](#troubleshooting) - [Changelog](#changelog)
+
 ---
 
-## 30-second overview
+## Features
+
+**DSP firmware (what the patch gives your radio):**
+
+| Area | What you get |
+|---|---|
+| TX audio | Compressor + noise gate, CESSB loudness, TX bandpass control, TX/RX calibration gains |
+| RX audio | Fixed AM/FM, rewritten FM mod/dem, adaptive notch (ANF), noise reduction (NR) + blanker (NB), VOX, IF-shift, CW peak filter |
+| Spectrum | Wider zoom (`fft_span`), `bf16` flow format, optimized zoom path |
+| Power | True power control, SWR fix, per-band output gain correction |
+
+**Uploader apps (how the firmware gets to your radio):**
+
+| App | Platform | Get it |
+|---|---|---|
+| GUI uploader | Windows (`.exe`), Linux (AppImage), macOS (`.dmg`) | [Releases](https://github.com/9M2PJU/x6100_base_patch/releases), or run from [`app/`](app/) |
+| Phone uploader | Android (`.apk`) | [Releases](https://github.com/9M2PJU/x6100_base_patch/releases), or build from [`app-android/`](app-android/) |
+| Script installer | Linux / macOS / Windows terminal | [`tools/`](tools/), or the one-liners below |
+
+All uploaders do the same job: find the radio on WiFi, copy one `.xgf` to `/usr/firmware`, verify it. Flashing itself is always done safely from the radio menu.
 
 | | |
 |---|---|
-| **What you get** | TX compressor + noise gate, fixed AM/FM, true power control, adaptive notch (ANF), noise reduction (NR) + blanker (NB), VOX, IF-shift, wider spectrum zoom (`fft_span`), TX bandpass control, TX/RX calibration gains |
 | **What you flash** | One `.xgf` file to `/usr/firmware`, then flash from the radio menu |
 | **How long** | ~5 min (mostly WiFi copy) |
 | **Risk** | BASE-only patch; boot stock FW without SD card before uploading |
@@ -26,6 +51,12 @@ Better TX audio, FM, filters, NR/NB, VOX, IF-shift and spectrum flow - works wit
 - No, if you only want stock behavior - skip it.
 
 </details>
+
+## Screenshots
+
+| Desktop | Android |
+|---|---|
+| ![Uploader GUI](app/screenshot-main.png) | <img src="app-android/screenshot-phone.jpg" width="300" alt="Android app"> |
 
 ## Compatibility
 
@@ -370,8 +401,29 @@ python3 patch.py <oem.bin>   # -> <oem>_rN.bin (actually .xgf container)
 
 Hacking loop (from original notes): update `.text` padding in `stm32f427zgtx_flash.ld` → build → fix `asm/helper.s` → update `patch.py` addresses → run `patch.py`.
 
+The uploader apps share one network core: [`app/x6100_core.py`](app/x6100_core.py) (find radio, pick firmware, SFTP upload). Desktop GUI is [`app/x6100_uploader.py`](app/x6100_uploader.py) (tkinter), Android GUI is [`app-android/main.py`](app-android/main.py) (Kivy). CI builds all four binaries on every `v*` tag - see [`.github/workflows/`](.github/workflows/).
+
+## Contributors
+
+* **[gdyuldin](https://github.com/gdyuldin)** - original DSP patch, upstream maintainer. All DSP work (compressor through CESSB) is theirs.
+* **[9M2PJU](https://github.com/9M2PJU)** - this fork: WiFi installer scripts, cross-platform uploader apps (desktop + Android), docs and release packaging.
+
+## Thanks to
+
+* **KI9NG (@ki9ng)** - CESSB concept, measurements and tuning advice that shaped the TX chain.
+* **R1CBU** - alternative X6100 GUI exposing the new sliders (comp ratio, ANF, NR/NB, IF-shift, TX filter, `TX codec gain`) - effectively the control panel for this patch.
+* **HDSDR** - inspiration for the CW peak filter.
+* Everyone who tested early `rN` builds and reported back with traces, numbers and videos - the changelog above is written from your feedback.
+
+## Credits
+
+* Firmware DSP: [gdyuldin/x6100_base_patch](https://github.com/gdyuldin/x6100_base_patch) (upstream).
+* Uploader apps (Windows / Linux / macOS / Android): built by 9M2PJU in this repo ([`app/`](app/), [`app-android/`](app-android/)).
+* Radio photo in the header: product shot of the Xiegu X6100, reused here as documentation illustration (also cropped for the app icon in [`assets/`](assets/)).
+
 ## Links
 
 * Releases (this fork): https://github.com/9M2PJU/x6100_base_patch/releases
 * Upstream: https://github.com/gdyuldin/x6100_base_patch/releases
+* Upstream GUI uploader proposal: https://github.com/gdyuldin/x6100_base_patch/pull/8
 * R1CBU GUI (exposes new sliders): search `R1CBU X6100` - needed for comp/ANF/NR/NB/IF-shift UI
