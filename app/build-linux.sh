@@ -5,6 +5,15 @@ pip install pyinstaller paramiko
 pyinstaller app/x6100-uploader.spec
 BIN=dist/X6100-Uploader
 file "$BIN"
+if ! command -v appimagetool >/dev/null 2>&1; then
+  echo "Fetching appimagetool (CI runners don't have it)..."
+  curl -fsSL -o /tmp/appimagetool.AppImage https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+  chmod +x /tmp/appimagetool.AppImage
+  (cd /tmp && /tmp/appimagetool.AppImage --appimage-extract >/dev/null)
+  APPIMAGETOOL=/tmp/squashfs-root/AppRun
+else
+  APPIMAGETOOL=appimagetool
+fi
 rm -rf AppDir
 mkdir -p AppDir/usr/bin AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/256x256/apps
 cp "$BIN" AppDir/usr/bin/
@@ -24,5 +33,5 @@ EOF
 chmod +x AppDir/AppRun
 cp AppDir/usr/share/applications/X6100-Uploader.desktop AppDir/
 cp AppDir/usr/share/icons/hicolor/256x256/apps/x6100-uploader.png AppDir/ 2>/dev/null || true
-ARCH=x86_64 appimagetool AppDir X6100-Uploader-x86_64.AppImage
+ARCH=x86_64 "$APPIMAGETOOL" AppDir X6100-Uploader-x86_64.AppImage
 ls -lh X6100-Uploader-x86_64.AppImage

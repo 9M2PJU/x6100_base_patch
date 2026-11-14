@@ -5,13 +5,19 @@ on:
     tags: ["app-v*"]
 jobs:
   build:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: sudo apt update && sudo apt install -y openjdk-17-jdk unzip
+      - run: sudo apt update && sudo apt install -y openjdk-17-jdk unzip autoconf libtool pkg-config
+      - uses: android-actions/setup-android@v3
+      - run: |
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0"
       - run: bash app-android/build.sh
       - uses: actions/upload-artifact@v4
         with:
