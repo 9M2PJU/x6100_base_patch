@@ -18,7 +18,7 @@ rm -rf AppDir
 mkdir -p AppDir/usr/bin AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/256x256/apps
 cp "$BIN" AppDir/usr/bin/
 cp app/X6100-Uploader.desktop AppDir/usr/share/applications/ 2>/dev/null || {
-  printf '[Desktop Entry]\nType=Application\nName=X6100 Uploader\nExec=X6100-Uploader\nIcon=x6100-uploader\nCategories=HamRadio;Network;\n' \
+  printf '[Desktop Entry]\nType=Application\nName=Xiegu X6100 Base Patch Firmware Uploader\nExec=X6100-Uploader\nIcon=x6100-uploader\nCategories=HamRadio;Network;\n' \
     > AppDir/usr/share/applications/X6100-Uploader.desktop
 }
 # icon optional: drop a 256x256 png at app/icon.png and it gets picked up

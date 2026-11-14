@@ -262,7 +262,7 @@ class Root(BoxLayout):
 
 
 class X6100App(App):
-    title = "X6100 Base Patch Uploader"
+    title = "Xiegu X6100 Base Patch Firmware Uploader"
 
     def build(self):
         return Root()

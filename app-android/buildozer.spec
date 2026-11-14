@@ -1,5 +1,5 @@
 [app]
-title = X6100 Base Patch Uploader
+title = Xiegu X6100 Base Patch Firmware Uploader
 package.name = x6100uploader
 package.domain = org.x6100
 source.dir = .
