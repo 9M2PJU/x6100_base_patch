@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: sudo apt update && sudo apt install -y openjdk-17-jdk unzip autoconf automake autopoint libtool libtool-bin pkg-config wget
+      - run: sudo apt update && sudo apt install -y openjdk-17-jdk unzip autoconf automake autopoint libtool libtool-bin libltdl-dev pkg-config wget
       - name: Install Android SDK
         run: |
           export ANDROID_HOME="$HOME/android-sdk"
