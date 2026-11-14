@@ -44,6 +44,14 @@ class App(tk.Tk):
 
         head = tk.Frame(wrap, background="#1c2330")
         head.pack(fill="x", pady=(0, 2))
+        try:
+            ip = self._icon_path()
+            if ip:
+                self._logo = tk.PhotoImage(file=ip).subsample(2, 2)
+                tk.Label(head, image=self._logo, background="#1c2330").pack(
+                    side="left", padx=(10, 0), pady=4)
+        except Exception:
+            pass
         title_lbl = tk.Label(head, text="Xiegu X6100 Base Patch Firmware Uploader",
                              background="#1c2330", foreground="white",
                              font=("TkDefaultFont", 11, "bold"))
@@ -151,6 +159,17 @@ class App(tk.Tk):
         self.log.configure(state="disabled")
         ttk.Label(wrap, text="After upload: System settings → Firmware upgrade → pick file → Update. Never flash on battery.",
                   wraplength=600, style="Dim.TLabel").pack(anchor="w", pady=(6, 0))
+
+    def _icon_path(self):
+        from x6100_core import app_dir
+        base = app_dir()
+        for d in (os.path.join(os.path.dirname(base), "assets"),
+                  os.path.join(base, "assets"),
+                  os.path.join(os.getcwd(), "assets")):
+            p = os.path.join(d, "x6100-icon-64.png")
+            if os.path.isfile(p):
+                return p
+        return ""
 
     def _about(self):
         self._dlg("info", "About", ABOUT_TEXT)

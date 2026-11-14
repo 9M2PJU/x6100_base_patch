@@ -10,4 +10,5 @@ __pycache__/
 app-android/bin/
 app-android/.buildozer/
 app-android/x6100_core.py
+app-android/x6100-icon.png
 app-android/firmwares/

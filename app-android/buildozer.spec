@@ -4,6 +4,7 @@ package.name = x6100uploader
 package.domain = org.x6100
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,xgf
+icon.filename = x6100-icon.png
 # x6100_core.py + one recommended .xgf are copied in by build.sh before buildozer runs
 version = 1.0
 requirements = python3,kivy,paramiko,cryptography
