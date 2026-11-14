@@ -46,6 +46,8 @@ Get the builds from the [releases page](https://github.com/9M2PJU/x6100_base_pat
 
 ![Uploader GUI](app/screenshot-main.png)
 
+<img src="app-android/screenshot-phone.jpg" width="300" alt="Android app"> (Android app)
+
 ## Option B - Script install (terminal, no GUI)
 
 You run one small script on your computer. It sends the firmware file to the radio over WiFi. You do **not** need WinSCP or FileZilla. The actual flashing still happens safely from the radio menu.
