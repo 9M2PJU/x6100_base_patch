@@ -42,7 +42,7 @@ Check yours on the radio: **System info → BASE**. Pick the highest `rN` for yo
 
 Same job as the scripts below, with a window: it finds the radio on WiFi, you pick the `.xgf`, it copies to `/usr/firmware`. Flashing is still done on the radio menu.
 
-Get the builds from the [releases page](https://github.com/9M2PJU/x6100_base_patch/releases) (`X6100-Uploader-*.exe` / `*-x86_64.AppImage` / `*-macos.zip` / `*.apk`), or run from source - see [`app/`](app/) (desktop) and [`app-android/`](app-android/) (phone).
+Get the builds from the [releases page](https://github.com/9M2PJU/x6100_base_patch/releases) (`X6100-Uploader-*.exe` / `*-x86_64.AppImage` / `*-macos.dmg` / `*.apk`), or run from source - see [`app/`](app/) (desktop) and [`app-android/`](app-android/) (phone).
 
 ![Uploader GUI](app/screenshot-main.png)
 
