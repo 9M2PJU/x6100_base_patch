@@ -2,6 +2,7 @@
 # Stage shared core + one bundled firmware, then build debug APK.
 # Run on Linux (or CI):  cd app-android && ./build.sh
 set -euo pipefail
+cd "$(dirname "$0")"
 cp ../app/x6100_core.py ./x6100_core.py
 mkdir -p firmwares
 cp ../firmwares/X6100_BBFW_V1.1.6_230307001_r13.xgf firmwares/ 2>/dev/null || {
