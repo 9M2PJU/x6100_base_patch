@@ -35,12 +35,6 @@ class App(tk.Tk):
         self._refresh_fw_menu()
 
     def _build(self):
-        menubar = tk.Menu(self)
-        helpmenu = tk.Menu(menubar, tearoff=0)
-        helpmenu.add_command(label="Manual steps", command=self._manual)
-        helpmenu.add_command(label="About", command=self._about)
-        menubar.add_cascade(label="Help", menu=helpmenu)
-        self.configure(menu=menubar)
         self.title("X6100 Base Patch Uploader")
         self.geometry("660x640")
         self._style()
