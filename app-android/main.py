@@ -176,8 +176,9 @@ class Root(BoxLayout):
 
         self.refresh_fw()
         self.say("Ready. Join the same WiFi as the radio first.")
-        Clock.schedule_once(lambda _dt: self.popup("Before you start",
-                                                   start_checklist()))
+        Clock.schedule_once(lambda _dt: self.popup(
+            "About", ABOUT_TEXT,
+            then=lambda: self.popup("Before you start", start_checklist())))
 
     def _head_move(self, head, _v):
         self._head_rect.pos = head.pos
@@ -205,7 +206,7 @@ class Root(BoxLayout):
     def set_bar(self, v):
         Clock.schedule_once(lambda _dt: setattr(self.bar, "value", v))
 
-    def popup(self, title, text):
+    def popup(self, title, text, then=None):
         box = BoxLayout(orientation="vertical", spacing=dp(8),
                         padding=dp(12))
         lab = wrap_left(Label(text=tx(text), font_size=sp(15), color=TEXT,
@@ -219,7 +220,10 @@ class Root(BoxLayout):
                     title_color=(1, 1, 1, 1), separator_color=ACCENT,
                     content=box, size_hint=(0.94, 0.86),
                     background_color=CARD)
-        close.bind(on_release=pop.dismiss)
+        if then is None:
+            close.bind(on_release=pop.dismiss)
+        else:
+            close.bind(on_release=lambda *_: (pop.dismiss(), then()))
         pop.open()
 
     def refresh_fw(self):

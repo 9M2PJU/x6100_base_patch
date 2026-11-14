@@ -177,6 +177,10 @@ class App(tk.Tk):
     def _manual(self):
         self._dlg("info", "What you will do manually", start_checklist())
 
+    def _show_startup(self):
+        self._about()
+        self._manual()
+
     def _dlg(self, kind, title, text):
         colors = {"info": "#1f6feb", "done": "#1a7f37", "error": "#cf222e"}
         d = tk.Toplevel(self)
@@ -343,5 +347,5 @@ class App(tk.Tk):
 if __name__ == "__main__":
     app = App()
     if "--no-welcome" not in sys.argv:
-        app.after(400, app._manual)  # checklist first, before any use
+        app.after(400, app._show_startup)  # About first, manual steps second
     app.mainloop()
