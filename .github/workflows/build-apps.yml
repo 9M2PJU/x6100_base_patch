@@ -2,7 +2,7 @@ name: desktop-apps
 on:
   workflow_dispatch:
   push:
-    tags: ["app-v*"]
+    tags: ["uploader-v*"]
 jobs:
   build:
     permissions:

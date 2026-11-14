@@ -2,7 +2,7 @@ name: android-apk
 on:
   workflow_dispatch:
   push:
-    tags: ["app-v*"]
+    tags: ["uploader-v*"]
 jobs:
   build:
     permissions:
