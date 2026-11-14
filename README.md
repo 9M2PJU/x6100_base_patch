@@ -38,7 +38,15 @@ Check yours on the radio: **System info → BASE**. Pick the highest `rN` for yo
 
 ---
 
-## Option A — Automatic install (recommended, easiest)
+## Option A — GUI app (recommended, easiest)
+
+Same job as the scripts below, with a window: it finds the radio on WiFi, you pick the `.xgf`, it copies to `/usr/firmware`. Flashing is still done on the radio menu.
+
+Get the builds from the [releases page](https://github.com/9M2PJU/x6100_base_patch/releases) (`X6100-Uploader-*.exe` / `*-x86_64.AppImage` / `*-macos.zip` / `*.apk`), or run from source — see [`app/`](app/) (desktop) and [`app-android/`](app-android/) (phone).
+
+![Uploader GUI](app/screenshot-main.png)
+
+## Option B — Script install (terminal, no GUI)
 
 You run one small script on your computer. It sends the firmware file to the radio over WiFi. You do **not** need WinSCP or FileZilla. The actual flashing still happens safely from the radio menu.
 
@@ -202,15 +210,7 @@ If the file is not listed, it landed in the wrong folder. Re-run the script (it 
 
 ---
 
-## Option A2 — GUI app (Windows / Linux / macOS / Android)
-
-Same job as the scripts above, with a window: it finds the radio on WiFi, you pick the `.xgf`, it copies to `/usr/firmware`. Flashing is still done on the radio menu.
-
-Get the builds from the [releases page](https://github.com/9M2PJU/x6100_base_patch/releases) (`X6100-Uploader-*.exe` / `*-x86_64.AppImage` / `*-macos.zip` / `*.apk`), or run from source — see [`app/`](app/) (desktop) and [`app-android/`](app-android/) (phone).
-
-![Uploader GUI](app/screenshot-main.png)
-
-## Option B — Manual install (WinSCP / FileZilla / `scp`)
+## Option C — Manual install (WinSCP / FileZilla / `scp`)
 
 1. Download a `.xgf` from [`firmwares/`](firmwares/) or [releases](https://github.com/9M2PJU/x6100_base_patch/releases).
 2. Boot stock firmware (no SD card).
