@@ -1,14 +1,24 @@
-# Xiegu X6100 Extended BASE Firmware
+<p align="center">
+  <img src="assets/banner.png" alt="X6100 Extended BASE Firmware Banner" width="100%">
+</p>
 
-[![Latest release](https://img.shields.io/github/v/release/9M2PJU/x6100_base_patch?label=latest%20release)](https://github.com/9M2PJU/x6100_base_patch/releases)
-[![Desktop builds](https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apps.yml/badge.svg)](https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apps.yml)
-[![Android build](https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apk.yml/badge.svg)](https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apk.yml)
-![Platforms](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS%20%7C%20Android-blue)
+<p align="center">
+  <img src="assets/logo.png" alt="X6100 DSP Logo" width="112">
+</p>
 
-![X6100](assets/x6100-header.jpg)
+<h1 align="center">Xiegu X6100 Extended BASE Firmware</h1>
 
-Patched DSP firmware for the **BASE board** (`STM32F427`) of the Xiegu X6100, plus one-click uploader apps for every major OS.
-Better TX audio, FM, filters, NR/NB, VOX, IF-shift and spectrum flow - works with the stock GUI and with R1CBU / OpenX6100 style GUIs.
+<p align="center">
+  <a href="https://github.com/9M2PJU/x6100_base_patch/releases"><img src="https://img.shields.io/github/v/release/9M2PJU/x6100_base_patch?label=latest%20release&style=flat-square" alt="Latest release"></a>
+  <a href="https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apps.yml"><img src="https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apps.yml/badge.svg" alt="Desktop builds"></a>
+  <a href="https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apk.yml"><img src="https://github.com/9M2PJU/x6100_base_patch/actions/workflows/build-apk.yml/badge.svg" alt="Android build"></a>
+  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS%20%7C%20Android-blue?style=flat-square" alt="Platforms">
+</p>
+
+<p align="center">
+  Patched DSP firmware for the <b>BASE board</b> (<code>STM32F427</code>) of the Xiegu X6100, plus one-click uploader apps for every major OS.<br>
+  Better TX audio, FM, filters, NR/NB, VOX, IF-shift and spectrum flow - works with the stock GUI and with R1CBU / OpenX6100 style GUIs.
+</p>
 
 > **Disclaimer:** provided as-is, use at your own risk. Flash on external power, never on battery alone.
 
