@@ -341,7 +341,7 @@ Latest release: **r13** - get it from [releases](https://github.com/9M2PJU/x6100
 
 ### r12
 New features:
-* **CESSB** (Controlled Envelope SSB, idea by @ki9ng) - ON/OFF plus power-up level (dB). Raises average TX power and loudness by clipping/filtering to cut peak-to-average ratio while keeping the signal clean. Measured by KI9NG: Conservative (p99) +2.4 dB, barely audible; Recommended (p97) +3.7 dB, clean, no pumping; Aggressive (p95) +4.3 dB, slightly "processed". With a calibrated TX level, ALC should sit around 0.1–0.3 and never exceed 1.0 for long. Even at 0 dB power-up it protects the finals (and any amp) from overload and out-of-band emissions.
+* **CESSB** (Controlled Envelope SSB, idea by @ki9ng) - ON/OFF plus power-up level (dB). Raises average TX power and loudness by clipping/filtering to cut peak-to-average ratio while keeping the signal clean. Measured by KI9NG: Conservative (p99) +2.4 dB, barely audible; Recommended (p97) +3.7 dB, clean, no pumping; Aggressive (p95) +4.3 dB, slightly "processed". With a calibrated TX level, ALC should sit around 0.1-0.3 and never exceed 1.0 for long. Even at 0 dB power-up it protects the finals (and any amp) from overload and out-of-band emissions.
 * **VOX** - works with the hand mic / anything on the MIC socket, and line-in in SSB (line-in only in digital modes). Does **not** work with the internal mic: its phantom power is on only during TX, so it hears nothing on RX. Controls: ON/OFF, VOX gain (more = more sensitive, ~50 tested), anti-VOX gain (0 = ignore RX audio), delay against dropouts on pauses. Adds a small TX delay so speech starts aren't clipped, plus a handover timeout against fast TX/RX flapping.
 * **CW peak filter** - resonant filter on the CW key frequency with adjustable Q (inspired by HDSDR). Lifts weak signals; starts ringing at high Q.
 Fixes and changes:
@@ -356,13 +356,13 @@ Fixes and changes:
 
 ### r10 (beta)
 * OEM noise reduction replaced with spectral over-subtraction: FFT 512 for narrowband (≤ 3200 Hz), seamless switch to FFT 256 above; time/frequency averaging plus suppression limiting remove the "water flow" musical noise and reduce voice distortion, also on weak signals.
-* NR moved before AGC for better noise-profile detection. The profile adapts over 1–5 s, so after quiet it may look like a "slow turn-on" - that's normal.
+* NR moved before AGC for better noise-profile detection. The profile adapts over 1-5 s, so after quiet it may look like a "slow turn-on" - that's normal.
 * If anything goes wrong: reflash the same or another firmware (OEM GUI), or long-press the lock button to reset the MCU (R1CBU).
 
 ### r9
 * Fixed AGC on CW
 * Updated filters (less ripple/ringing, wider transition)
-* TX bandpass filter control (default 160–3000 Hz)
+* TX bandpass filter control (default 160-3000 Hz)
 
 ### r8
 * IF shift (RX/TX)

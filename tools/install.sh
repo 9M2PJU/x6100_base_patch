@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# X6100 BASE firmware installer (Linux / macOS) — beginner-friendly wizard.
+# X6100 BASE firmware installer (Linux / macOS) - beginner-friendly wizard.
 # Finds the radio on WiFi, lets you pick a firmware, uploads it via SCP.
 # One-liner (no download needed):
 #   bash <(curl -fsSL https://raw.githubusercontent.com/9M2PJU/x6100_base_patch/1.1.6/tools/install.sh)
@@ -155,14 +155,14 @@ choose_firmware() {
 
 # ---------- radio discovery ----------
 
-tcp_open() { # host port timeout — needs python3
+tcp_open() { # host port timeout - needs python3
   python3 -c 'import socket,sys
 s=socket.socket(); s.settimeout(float(sys.argv[3]))
 sys.exit(0 if s.connect_ex((sys.argv[1], int(sys.argv[2])))==0 else 1)' \
     "$1" "$2" "${3:-1}" 2>/dev/null
 }
 
-ssh_alive() { # host — true if a real SSH server answers (password still needed later)
+ssh_alive() { # host - true if a real SSH server answers (password still needed later)
   local out
   out="$(ssh -p "$PORT" -o BatchMode=yes $SSH_OPTS "$USER@$1" true 2>&1 || true)"
   echo "$out" | grep -qi "permission denied"
@@ -248,7 +248,7 @@ choose_ip() {
 progress 1 4 "picking firmware"
 choose_firmware
 [ -f "$FILE" ] || { echo "ERROR: file not found: $FILE"; exit 1; }
-case "$FILE" in *.xgf) ;; *) echo "WARNING: '$FILE' is not a .xgf — continuing anyway.";; esac
+case "$FILE" in *.xgf) ;; *) echo "WARNING: '$FILE' is not a .xgf - continuing anyway.";; esac
 
 progress 2 4 "finding radio"
 choose_ip

@@ -1,6 +1,6 @@
-# X6100 BASE firmware installer (Windows, PowerShell 5.1+) — beginner wizard.
+# X6100 BASE firmware installer (Windows, PowerShell 5.1+) - beginner wizard.
 # Finds the radio on WiFi, you pick a firmware, it uploads via SCP.
-# One-liner (nothing to download first) — paste into PowerShell:
+# One-liner (nothing to download first) - paste into PowerShell:
 #   $f="$env:TEMP\x6100-install.ps1"; irm https://raw.githubusercontent.com/9M2PJU/x6100_base_patch/1.1.6/tools/install.ps1 -OutFile $f; & $f
 param(
   [string]$Ip = "",
