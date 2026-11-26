@@ -47,26 +47,20 @@
 
 All uploaders do the same job: find the radio on WiFi, copy one `.xgf` to `/usr/firmware`, verify it. Flashing itself is always done safely from the radio menu.
 
-| | |
-|---|---|
-| **What you flash** | One `.xgf` file to `/usr/firmware`, then flash from the radio menu |
-| **How long** | ~5 min (mostly WiFi copy) |
-| **Risk** | BASE-only patch; boot stock FW without SD card before uploading |
-
-<details>
-<summary><b>Is this for me? Click to check</b></summary>
-
-- Yes, if you use SSB/CW/AM/FM on the X6100 and want cleaner TX/RX.
-- Yes, if you use R1CBU GUI - extra sliders (comp ratio, ANF, NR/NB, IF-shift, TX filter, `TX codec gain`) light up.
-- No, if you only want stock behavior - skip it.
-
-</details>
-
 ## Screenshots
 
-| Desktop | Android |
-|---|---|
-| ![Uploader GUI](app/screenshot-main.png) | <img src="app-android/screenshot-phone.jpg" width="300" alt="Android app"> |
+<table>
+  <tr>
+    <td align="center" valign="middle">
+      <img src="app/screenshot-main.png" width="460" alt="Desktop Uploader GUI"><br>
+      <sub><b>Desktop (Windows / Linux / macOS)</b></sub>
+    </td>
+    <td align="center" valign="middle">
+      <img src="app-android/screenshot-phone.jpg" width="200" alt="Android Uploader App"><br>
+      <sub><b>Android</b></sub>
+    </td>
+  </tr>
+</table>
 
 ## Compatibility
 
@@ -261,19 +255,35 @@ If the file is not listed, it landed in the wrong folder. Re-run the script (it 
 6. System settings → Firmware upgrade → pick file → Update.
 7. Verify BASE shows `rN` suffix.
 
-### Videos
+---
 
-**WiFi + copy files (same flow, just copy instead of editing):**
+## Videos
 
-<a href="https://www.youtube.com/watch?v=9oviNzXT-v8"><img src="https://img.youtube.com/vi/9oviNzXT-v8/hqdefault.jpg" width="320" alt="WiFi and file copy"></a>
-
-**TX level calibration (required after patching):**
-
-<a href="https://www.youtube.com/watch?v=zoN6uAewPK0"><img src="https://img.youtube.com/vi/zoN6uAewPK0/hqdefault.jpg" width="320" alt="TX calibration"></a>
-
-**Unwanted RX after TX fix demo (r7):**
-
-<a href="https://www.youtube.com/watch?v=ljKug5yumMA"><img src="https://img.youtube.com/vi/ljKug5yumMA/hqdefault.jpg" width="320" alt="RX after TX fix"></a>
+<table>
+  <tr>
+    <td align="center" valign="top" width="33%">
+      <a href="https://www.youtube.com/watch?v=9oviNzXT-v8">
+        <img src="https://img.youtube.com/vi/9oviNzXT-v8/mqdefault.jpg" width="260" alt="WiFi and file copy"><br>
+        <sub><b>WiFi + Copy Files</b></sub>
+      </a><br>
+      <sub>Connect to WiFi and copy files to radio</sub>
+    </td>
+    <td align="center" valign="top" width="33%">
+      <a href="https://www.youtube.com/watch?v=zoN6uAewPK0">
+        <img src="https://img.youtube.com/vi/zoN6uAewPK0/mqdefault.jpg" width="260" alt="TX level calibration"><br>
+        <sub><b>TX Level Calibration</b></sub>
+      </a><br>
+      <sub>Required power &amp; ALC calibration after flashing</sub>
+    </td>
+    <td align="center" valign="top" width="33%">
+      <a href="https://www.youtube.com/watch?v=ljKug5yumMA">
+        <img src="https://img.youtube.com/vi/ljKug5yumMA/mqdefault.jpg" width="260" alt="RX after TX fix demo"><br>
+        <sub><b>RX After TX Fix (r7)</b></sub>
+      </a><br>
+      <sub>Demo of ghost RX suppression fix</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -444,27 +454,13 @@ The uploader apps share one network core: [`app/x6100_core.py`](app/x6100_core.p
   </tr>
 </table>
 
-* **[gdyuldin](https://github.com/gdyuldin)** - original DSP patch, upstream maintainer. All DSP work (compressor through CESSB) is theirs.
-* **[9M2PJU](https://github.com/9M2PJU)** - this fork: WiFi installer scripts, cross-platform uploader apps (desktop + Android), CI builds, docs, and release packaging.
-* **[d3m3vilurr](https://github.com/d3m3vilurr)** - `V1.1.6 230307001` BASE firmware support, multi-offset patching (`offsets.h`), and linker script generation.
-* **[ki9ng](https://github.com/ki9ng)** - CESSB concept, measurements, and tuning advice that shaped the TX chain.
+## Acknowledgments
 
-## Thanks to
-
-* **KI9NG (@ki9ng)** - CESSB concept, measurements and tuning advice that shaped the TX chain.
-* **R1CBU** - alternative X6100 GUI exposing the new sliders (comp ratio, ANF, NR/NB, IF-shift, TX filter, `TX codec gain`) - effectively the control panel for this patch.
+* **R1CBU** - alternative X6100 GUI exposing the new DSP sliders (comp ratio, ANF, NR/NB, IF-shift, TX filter, `TX codec gain`).
 * **HDSDR** - inspiration for the CW peak filter.
-* Everyone who tested early `rN` builds and reported back with traces, numbers and videos - the changelog above is written from your feedback.
-
-## Credits
-
-* Firmware DSP: [gdyuldin/x6100_base_patch](https://github.com/gdyuldin/x6100_base_patch) (upstream).
-* Uploader apps (Windows / Linux / macOS / Android): built by 9M2PJU in this repo ([`app/`](app/), [`app-android/`](app-android/)).
-* Radio photo in the header: product shot of the Xiegu X6100, reused here as documentation illustration (also cropped for the app icon in [`assets/`](assets/)).
+* Community testers who validated early `rN` builds with traces, measurements, and videos.
 
 ## Links
 
 * Releases (this fork): https://github.com/9M2PJU/x6100_base_patch/releases
-* Upstream: https://github.com/gdyuldin/x6100_base_patch/releases
-* Upstream GUI uploader proposal: https://github.com/gdyuldin/x6100_base_patch/pull/8
-* R1CBU GUI (exposes new sliders): search `R1CBU X6100` - needed for comp/ANF/NR/NB/IF-shift UI
+* Upstream repo & releases: https://github.com/gdyuldin/x6100_base_patch/releases
