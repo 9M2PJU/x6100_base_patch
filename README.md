@@ -411,8 +411,43 @@ The uploader apps share one network core: [`app/x6100_core.py`](app/x6100_core.p
 
 ## Contributors
 
+<table>
+  <tr>
+    <td align="center" valign="top" width="25%">
+      <a href="https://github.com/gdyuldin">
+        <img src="https://avatars.githubusercontent.com/u/4144213?v=4&s=160" width="84" alt="gdyuldin"><br>
+        <sub><b>@gdyuldin</b></sub>
+      </a><br>
+      <sub>DSP firmware &amp; upstream maintainer</sub>
+    </td>
+    <td align="center" valign="top" width="25%">
+      <a href="https://github.com/9M2PJU">
+        <img src="https://avatars.githubusercontent.com/u/991353?v=4&s=160" width="84" alt="9M2PJU"><br>
+        <sub><b>@9M2PJU</b></sub>
+      </a><br>
+      <sub>WiFi installers, GUI uploaders, CI &amp; docs</sub>
+    </td>
+    <td align="center" valign="top" width="25%">
+      <a href="https://github.com/d3m3vilurr">
+        <img src="https://avatars.githubusercontent.com/u/47262?v=4&s=160" width="84" alt="d3m3vilurr"><br>
+        <sub><b>@d3m3vilurr</b></sub>
+      </a><br>
+      <sub>230307001 support &amp; multi-offset patching</sub>
+    </td>
+    <td align="center" valign="top" width="25%">
+      <a href="https://github.com/ki9ng">
+        <img src="https://avatars.githubusercontent.com/u/230678305?v=4&s=160" width="84" alt="ki9ng"><br>
+        <sub><b>@ki9ng</b></sub>
+      </a><br>
+      <sub>CESSB concept &amp; TX measurements</sub>
+    </td>
+  </tr>
+</table>
+
 * **[gdyuldin](https://github.com/gdyuldin)** - original DSP patch, upstream maintainer. All DSP work (compressor through CESSB) is theirs.
-* **[9M2PJU](https://github.com/9M2PJU)** - this fork: WiFi installer scripts, cross-platform uploader apps (desktop + Android), docs and release packaging.
+* **[9M2PJU](https://github.com/9M2PJU)** - this fork: WiFi installer scripts, cross-platform uploader apps (desktop + Android), CI builds, docs, and release packaging.
+* **[d3m3vilurr](https://github.com/d3m3vilurr)** - `V1.1.6 230307001` BASE firmware support, multi-offset patching (`offsets.h`), and linker script generation.
+* **[ki9ng](https://github.com/ki9ng)** - CESSB concept, measurements, and tuning advice that shaped the TX chain.
 
 ## Thanks to
 
